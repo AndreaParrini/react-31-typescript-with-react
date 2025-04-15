@@ -1,11 +1,34 @@
-const NewTodo = ()=>{
-    const submitHandler = (event: React.FormEvent) =>{
+import { useRef } from "react";
+
+const NewTodo = () => {
+    // con la notazione <HTMLInputElement> andiamo a specificare a useRef di che tipo sarà il valore alla quale assegneremo il ref
+    // ed inoltre dobbiamo dare un valore iniziale ed in questo caso sarà null
+    const todoTextInputRef = useRef<HTMLInputElement>(null)
+
+    const submitHandler = (event: React.FormEvent) => {
+        event.preventDefault();
+
+        // il '?' dopo current viene messo in automatico da typescript 
+        // che permette di controllare se è stata già stabilita una connessione con l'input
+        // e nel caso ancora non fosse stabilita assegna il valore null\undefined alla constante
+        // const enteredText = todoTextInputRef.current?.value;
+
+        // mentre se lato sviluppatore si è sicuri al 100% che in quel punto la connessone è stata stabilita 
+        // e quindi si è sicuri al 100% che non sarà mai null
+        // si può usare il simbolo '!' 
+        const enteredText = todoTextInputRef.current!.value;
+
+        if (enteredText.trim().length === 0) {
+            // throw an error
+            return;
+        }
+            
     }
 
     return (
         <form onSubmit={submitHandler}>
             <label htmlFor="text">Todo text</label>
-            <input type="text" id="text" />
+            <input type="text" id="text" ref={todoTextInputRef} />
             <button>Add Todo</button>
         </form>
     )
