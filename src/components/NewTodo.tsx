@@ -1,6 +1,9 @@
 import { useRef } from "react";
 
-const NewTodo = () => {
+import classes from './NewTodo.module.css'
+// impostiamo il valore delle props come una arrow function in cui però dobbiamo specificare sia i valori in ingresso 
+// sia cosa ritorna, dato che in questo caso non ritorna nulla inseriamo void
+const NewTodo: React.FC<{addNewTodo: (text: string)=> void}> = (props) => {
     // con la notazione <HTMLInputElement> andiamo a specificare a useRef di che tipo sarà il valore alla quale assegneremo il ref
     // ed inoltre dobbiamo dare un valore iniziale ed in questo caso sarà null
     const todoTextInputRef = useRef<HTMLInputElement>(null)
@@ -22,11 +25,12 @@ const NewTodo = () => {
             // throw an error
             return;
         }
-            
+        
+        props.addNewTodo(enteredText);
     }
 
     return (
-        <form onSubmit={submitHandler}>
+        <form onSubmit={submitHandler} className={classes.form}>
             <label htmlFor="text">Todo text</label>
             <input type="text" id="text" ref={todoTextInputRef} />
             <button>Add Todo</button>
