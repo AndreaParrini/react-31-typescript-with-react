@@ -1,12 +1,15 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
+import { TodosContext } from "../store/todos-context";
 
 import classes from './NewTodo.module.css'
 // impostiamo il valore delle props come una arrow function in cui però dobbiamo specificare sia i valori in ingresso 
 // sia cosa ritorna, dato che in questo caso non ritorna nulla inseriamo void
-const NewTodo: React.FC<{addNewTodo: (text: string)=> void}> = (props) => {
+const NewTodo: React.FC/* <{addNewTodo: (text: string)=> void}> */ = (props) => {
     // con la notazione <HTMLInputElement> andiamo a specificare a useRef di che tipo sarà il valore alla quale assegneremo il ref
     // ed inoltre dobbiamo dare un valore iniziale ed in questo caso sarà null
     const todoTextInputRef = useRef<HTMLInputElement>(null)
+
+    const { addTodo } = useContext(TodosContext);
 
     const submitHandler = (event: React.FormEvent) => {
         event.preventDefault();
@@ -26,7 +29,7 @@ const NewTodo: React.FC<{addNewTodo: (text: string)=> void}> = (props) => {
             return;
         }
         
-        props.addNewTodo(enteredText);
+        addTodo(enteredText);
     }
 
     return (
